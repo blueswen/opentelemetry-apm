@@ -1,0 +1,59 @@
+version: "3.4"
+
+services:
+  fastapi:
+    build: ./fastapi_app/
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./fastapi_app:/app
+    environment:
+      TARGET_ONE_HOST: "app-b"
+      TARGET_TWO_HOST: "app-c"
+      OTEL_TRACES_EXPORTER: "otlp"
+      OTEL_METRICS_EXPORTER: "none"
+      OTEL_SERVICE_NAME: "fastapi"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4317"
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.81.0
+    command:
+      - "--config=/conf/config.yaml"
+    volumes:
+      - ./etc/otel-collector-config.yaml:/conf/config.yaml
+    ports:
+      - "4317" # OTLP gRPC receiver
+      - "4318" # OTLP http receiver
+      - "8889" # Prometheus metrics exporter
+    restart: on-failure
+    depends_on:
+      - tempo
+
+  tempo:
+    image: grafana/tempo:2.1.1
+    command: [ "--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false" ]
+    ports:
+      - "14250:14250"
+
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./etc/prometheus.yml:/workspace/prometheus.yml
+    command:
+      - --config.file=/workspace/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:10.0.2
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./etc/grafana/:/etc/grafana/provisioning/datasources
+      - ./etc/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ./etc/dashboards:/etc/grafana/dashboards
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+      GF_FEATURE_TOGGLES_ENABLE: "timeSeriesTable"
+      # GF_AUTH_DISABLE_LOGIN_FORM: "true"
