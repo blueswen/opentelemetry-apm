@@ -2,18 +2,31 @@ version: "3.4"
 
 services:
   fastapi:
-    build: ./fastapi_app/
+    build: ./app_fastapi/
     ports:
       - "8000:8000"
-    volumes:
-      - ./fastapi_app:/app
     environment:
-      TARGET_ONE_HOST: "app-b"
-      TARGET_TWO_HOST: "app-c"
-      OTEL_TRACES_EXPORTER: "otlp"
-      OTEL_METRICS_EXPORTER: "none"
-      OTEL_SERVICE_NAME: "fastapi"
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4317"
+      - TARGET_ONE_SVC=spring-boot:8080
+      - TARGET_TWO_SVC=spring-boot:8080
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_SERVICE_NAME=fastapi
+    command: "opentelemetry-instrument python main.py"
+
+  spring-boot:
+    build: ./app_springboot/
+    ports:
+      - "8080:8080"
+    environment:
+      - TARGET_ONE_SVC=fastapi:8000
+      - TARGET_TWO_SVC=fastapi:8000
+      - OTEL_EXPORTER=otlp_span
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=sprint-boot
+    command: "java -javaagent:/opentelemetry-javaagent.jar -jar /app.jar"
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.81.0
@@ -56,4 +69,3 @@ services:
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
       GF_FEATURE_TOGGLES_ENABLE: "timeSeriesTable"
-      # GF_AUTH_DISABLE_LOGIN_FORM: "true"
