@@ -202,7 +202,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "",
+      "description": "request amount distribution",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -274,7 +274,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "percentage of cumulative latency",
+      "description": "cumulative latency distribution",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -347,6 +347,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
+      "description": "overall request rate per minute over last 3 minutes",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -393,10 +394,11 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(increase(duration_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}[1m]))",
+          "expr": "sum(rate(duration_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}[3m])*60)",
+          "hide": false,
           "instant": false,
           "range": true,
-          "refId": "A"
+          "refId": "B"
         }
       ],
       "title": "Overall Request Rate",
@@ -407,6 +409,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
+      "description": "percentage of HTTP status 5xx in all requests",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -471,7 +474,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "",
+      "description": "request rate per minute over last 3 minutes",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -552,11 +555,12 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(increase(duration_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_route=~\"$route\"}[1m]))  by(span_name)",
+          "expr": "sum(rate(duration_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_route=~\"$route\"}[3m])*60)  by(span_name)",
+          "hide": false,
           "instant": false,
-          "legendFormat": "{{service_name}}",
+          "legendFormat": "{{label_name}}",
           "range": true,
-          "refId": "A"
+          "refId": "B"
         }
       ],
       "title": "Request Rate",
@@ -567,6 +571,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
+      "description": "PR95 latency over last 3 minutes",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -646,7 +651,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(duration_bucket{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}[$__rate_interval])) by (le, span_name))",
+          "expr": "histogram_quantile(0.95, sum(rate(duration_bucket{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}[3m])) by (le, span_name))",
           "instant": false,
           "legendFormat": "{{label_name}}",
           "range": true,
@@ -731,6 +736,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
+      "description": "Details of each API",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -892,7 +898,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(duration_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[1m])) by(service_name, http_method, http_route)",
+          "expr": "sum(rate(duration_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])*60) by(service_name, http_method, http_route)",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -906,7 +912,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(duration_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[1m])) by(service_name, http_method, http_route)",
+          "expr": "sum(rate(duration_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])*60) by(service_name, http_method, http_route)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -919,7 +925,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(duration_bucket{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[$__rate_interval])) by (le, service_name, http_method, http_route))",
+          "expr": "histogram_quantile(0.95, sum(rate(duration_bucket{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])) by (le, service_name, http_method, http_route))",
           "hide": false,
           "instant": false,
           "range": true,
@@ -932,7 +938,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "histogram_quantile(0.95, sum(rate(duration_bucket{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[$__rate_interval])) by (le, service_name, http_method, http_route))",
+          "expr": "histogram_quantile(0.95, sum(rate(duration_bucket{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])) by (le, service_name, http_method, http_route))",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1017,7 +1023,7 @@
       "type": "table"
     }
   ],
-  "refresh": "5s",
+  "refresh": "30s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -1026,8 +1032,8 @@
       {
         "current": {
           "selected": false,
-          "text": "app-a",
-          "value": "app-a"
+          "text": "fastapi",
+          "value": "fastapi"
         },
         "datasource": {
           "type": "prometheus",
@@ -1090,7 +1096,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "OpenTelemetry APM",
-  "uid": "ac2ac8ea-cf78-460b-a81c-e4b0de0a6a84",
-  "version": 6,
+  "uid": "opentelemetry-apm",
+  "version": 1,
   "weekStart": ""
 }
