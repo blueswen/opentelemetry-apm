@@ -1,4 +1,4 @@
-FROM python:3.9.11-slim
+FROM python:3.9-slim
 
 WORKDIR /app
 
@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
-CMD opentelemetry-instrument python main.py
+CMD python main.py

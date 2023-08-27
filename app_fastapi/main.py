@@ -10,8 +10,8 @@ from fastapi import FastAPI, Response
 
 EXPOSE_PORT = os.environ.get("EXPOSE_PORT", 8000)
 
-TARGET_ONE_HOST = os.environ.get("TARGET_ONE_HOST", "app-b")
-TARGET_TWO_HOST = os.environ.get("TARGET_TWO_HOST", "app-c")
+TARGET_ONE_SVC = os.environ.get("TARGET_ONE_SVC", "localhost:8000")
+TARGET_TWO_SVC = os.environ.get("TARGET_TWO_SVC", "localhost:8000")
 
 app = FastAPI()
 
@@ -74,11 +74,11 @@ async def chain(response: Response):
         )
     async with httpx.AsyncClient() as client:
         await client.get(
-            f"http://{TARGET_ONE_HOST}:8000/io_task",
+            f"http://{TARGET_ONE_SVC}/io_task",
         )
     async with httpx.AsyncClient() as client:
         await client.get(
-            f"http://{TARGET_TWO_HOST}:8000/cpu_task",
+            f"http://{TARGET_TWO_SVC}/cpu_task",
         )
     logging.info("Chain Finished")
     return {"path": "/chain"}
