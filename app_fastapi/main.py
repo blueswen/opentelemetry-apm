@@ -65,8 +65,7 @@ async def error_test(response: Response):
 @app.get("/chain")
 async def chain(response: Response):
 
-    headers = {}
-    logging.critical(headers)
+    logging.info("Chain Start")
 
     async with httpx.AsyncClient() as client:
         await client.get(
