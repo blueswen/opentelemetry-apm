@@ -162,7 +162,7 @@ OpenTelemetry Collector is a vendor-agnostic agent for collecting telemetry data
 ```yaml
 # docker-compose.yml
 otel-collector:
-  image: otel/opentelemetry-collector-contrib:0.81.0 # Use Contrib distribution
+  image: otel/opentelemetry-collector-contrib:0.87.0 # Use Contrib distribution
   command:
     - "--config=/conf/config.yaml"
   volumes:
@@ -224,6 +224,8 @@ service:
       receivers: [spanmetrics]
       exporters: [prometheus]
 ```
+
+Since opentelemetry-collector-contrib 0.85.0 the histogram metrics of duration be renamed from `duration_count` to `duration_milliseconds_count` or `duration_seconds_count` according to the unit of the metrics. Ensure the version of opentelemetry-collector-contrib is 0.85.0+ if you want to use the predefined dashboard in this project.
 
 Check more details about Connector in the [document](https://opentelemetry.io/docs/collector/configuration/#connectors).
 
