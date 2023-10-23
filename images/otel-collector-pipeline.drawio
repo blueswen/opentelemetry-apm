@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="PSwkkRA805_FCD7kwvl0" name="Page-1">
-        <mxGraphModel dx="1859" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+        <mxGraphModel dx="2236" dy="1176" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -37,7 +37,7 @@
                 <mxCell id="23" value="Exporter&lt;br&gt;(Prometheus)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="560" y="660" width="140" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="25" value="Reciever&lt;br&gt;(otlp)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" parent="1" vertex="1">
+                <mxCell id="25" value="Receiver&lt;br&gt;(otlp)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="168.75" y="490" width="140" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="26" value="Processor&lt;br&gt;(batch)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;" parent="1" vertex="1">
@@ -67,7 +67,7 @@
                 <mxCell id="32" value="Connector as Exporter&lt;br&gt;(spanmetrics)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="560" y="550" width="140" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="33" value="Connector as Reciever&lt;br&gt;(spanmetrics)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" parent="1" vertex="1">
+                <mxCell id="33" value="Connector as Receiver&lt;br&gt;(spanmetrics)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="167.5" y="660" width="141.25" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="35" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontColor=#000000;strokeColor=#000000;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="26" target="32" edge="1">
@@ -109,7 +109,7 @@
                 <mxCell id="42" value="Scrape" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;dashPattern=12 12;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="713.75" y="654" width="96.25" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="44" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontColor=#000000;strokeColor=#000000;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="33">
+                <mxCell id="44" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontColor=#000000;strokeColor=#000000;entryX=0.75;entryY=0;entryDx=0;entryDy=0;dashed=1;" parent="1" source="32" target="33" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="512.5" y="525" as="sourcePoint"/>
                         <mxPoint x="570" y="585" as="targetPoint"/>

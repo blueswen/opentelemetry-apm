@@ -31,8 +31,8 @@ This project is inspired by [Jaeger Service Performance Monitoring](https://www.
    Or you can send requests with [k6](https://k6.io/):
 
    ```bash
-    k6 run --vus 10 --duration 300s k6-script.js
-    ```
+   k6 run --vus 3 --duration 300s k6-script.js
+   ```
 
 3. Login to Grafana([http://localhost:3000/](http://localhost:3000/)) with default admin user and check the predefined dashboard `OpenTelemetry APM`
 
@@ -110,7 +110,7 @@ There are two ways to set the configuration of OpenTelemetry Instrumentation for
 1. [Environment variables](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/fastapi/fastapi.html#environment-variables)
 2. [CLI arguments](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/opentelemetry-instrumentation#opentelemetry-instrument)
 
-In this project we use environment variables to set the agent configuration:
+In this project we use environment variables to set the automatic instrumentation configuration:
 
 ```yaml
 # docker-compose.yml
@@ -186,7 +186,7 @@ To enable Span Metrics Connector and expose metrics in Prometheus format, we nee
 
 The pipeline diagram and configuration file are as follows:
 
-![OpenTelemetry Collector Pipeline](./images/otel-collector-pipeline.jpg)
+![OpenTelemetry Collector Pipeline](./images/otel-collector-pipeline.png)
 
 ```yaml
 # etc/otel-collector-config.yaml
