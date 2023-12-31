@@ -13,10 +13,9 @@ This project is inspired by [Jaeger Service Performance Monitoring](https://www.
 
 ## Quick Start
 
-1. Build application image and start all services with docker-compose
+1. Start all services with docker-compose
 
    ```bash
-   docker-compose build
    docker-compose up -d
    ```
 
@@ -82,7 +81,7 @@ In this project we use environment variables to set the agent configuration:
 ```yaml
 # docker-compose.yml
 spring-boot:
-  build: ./app/
+  image: ghcr.io/blueswen/opentelemetry-apm/springboot:latest
   environment:
     - OTEL_EXPORTER=otlp_span
     - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
@@ -115,7 +114,7 @@ In this project we use environment variables to set the automatic instrumentatio
 ```yaml
 # docker-compose.yml
 fastapi:
-  build: ./app_fastapi/
+  image: ghcr.io/blueswen/opentelemetry-apm/fastapi:latest
   environment:
     - OTEL_TRACES_EXPORTER=otlp
     - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
@@ -162,7 +161,7 @@ OpenTelemetry Collector is a vendor-agnostic agent for collecting telemetry data
 ```yaml
 # docker-compose.yml
 otel-collector:
-  image: otel/opentelemetry-collector-contrib:0.87.0 # Use Contrib distribution
+  image: otel/opentelemetry-collector-contrib:0.91.0 # Use Contrib distribution
   command:
     - "--config=/conf/config.yaml"
   volumes:
@@ -236,7 +235,7 @@ OpenTelemetry Collector only provides metrics in Prometheus format, so we need t
 ```yaml
 # docker-compose.yml
 prometheus:
-  image: prom/prometheus:v2.45.0
+  image: prom/prometheus:v2.48.1
   ports:
     - "9090:9090"
   volumes:
@@ -262,7 +261,7 @@ In this project, Tempo is used as a backend for receiving traces from OpenTeleme
 ```yaml
 # docker-compose.yml
 tempo:
-  image: grafana/tempo:2.1.1
+  image: grafana/tempo:2.3.1
   command: [ "--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false" ]
   ports:
     - "14250:14250"
@@ -285,7 +284,7 @@ enable = timeSeriesTable
 ```yaml
 # grafana in docker-compose.yaml
 grafana:
-   image: grafana/grafana:10.0.2
+   image: grafana/grafana:10.2.3
    volumes:
       - ./etc/grafana/:/etc/grafana/provisioning/datasources # data sources
       - ./etc/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml # dashboard setting
