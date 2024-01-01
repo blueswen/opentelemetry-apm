@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt && \
+    opentelemetry-bootstrap -a install
 
 EXPOSE 8000
 
