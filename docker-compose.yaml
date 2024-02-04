@@ -31,8 +31,8 @@ services:
     command: "java -javaagent:/opentelemetry-javaagent.jar -jar /app.jar"
 
   express:
-    build: ./app_express/
-    # image: ghcr.io/blueswen/opentelemetry-apm/express:latest
+    # build: ./app_express/
+    image: ghcr.io/blueswen/opentelemetry-apm/express:latest
     ports:
       - "3001:3001"
     environment:
