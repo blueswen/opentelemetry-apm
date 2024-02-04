@@ -44,7 +44,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -67,9 +68,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.4",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "datasource": {
@@ -124,7 +127,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -147,9 +151,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.4",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "datasource": {
@@ -258,7 +264,8 @@
             }
           },
           "mappings": [],
-          "unit": "short"
+          "unit": "short",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -330,7 +337,8 @@
             }
           },
           "mappings": [],
-          "unit": "ms"
+          "unit": "ms",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -405,7 +413,8 @@
               }
             ]
           },
-          "unit": "reqpm"
+          "unit": "reqpm",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -417,6 +426,8 @@
       },
       "id": 8,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -426,9 +437,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "10.1.4",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "datasource": {
@@ -471,7 +483,8 @@
               }
             ]
           },
-          "unit": "percentunit"
+          "unit": "percentunit",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -483,6 +496,8 @@
       },
       "id": 9,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -492,9 +507,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "10.1.4",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "datasource": {
@@ -523,6 +539,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -567,7 +584,8 @@
               }
             ]
           },
-          "unit": "reqpm"
+          "unit": "reqpm",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -621,6 +639,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -665,7 +684,8 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "ms",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -730,7 +750,8 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "ms",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -743,8 +764,10 @@
       "id": 6,
       "options": {
         "displayMode": "lcd",
+        "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -754,9 +777,10 @@
           "values": false
         },
         "showUnfilled": true,
+        "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "10.1.4",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "datasource": {
@@ -806,7 +830,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": [
           {
@@ -818,6 +843,7 @@
               {
                 "id": "custom.cellOptions",
                 "value": {
+                  "hideValue": true,
                   "type": "sparkline"
                 }
               },
@@ -862,6 +888,7 @@
               {
                 "id": "custom.cellOptions",
                 "value": {
+                  "hideValue": true,
                   "spanNulls": false,
                   "type": "sparkline"
                 }
@@ -899,6 +926,7 @@
               {
                 "id": "custom.cellOptions",
                 "value": {
+                  "hideValue": true,
                   "type": "sparkline"
                 }
               },
@@ -933,7 +961,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "10.1.4",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "datasource": {
@@ -1068,17 +1096,12 @@
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "fastapi",
-          "value": "fastapi"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
@@ -1102,7 +1125,7 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
             "All"
           ],
