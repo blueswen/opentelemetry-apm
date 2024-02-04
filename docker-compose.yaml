@@ -27,8 +27,22 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
       - OTEL_EXPORTER_OTLP_INSECURE=true
       - OTEL_METRICS_EXPORTER=none
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=sprint-boot
+      - OTEL_SERVICE_NAME=spring-boot
     command: "java -javaagent:/opentelemetry-javaagent.jar -jar /app.jar"
+
+  express:
+    build: ./app_express/
+    # image: ghcr.io/blueswen/opentelemetry-apm/express:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - EXPOSE_PORT=3001
+      - TARGET_ONE_SVC=fastapi:8000
+      - TARGET_TWO_SVC=fastapi:8000
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_SERVICE_NAME=express
+    command: "node --require '@opentelemetry/auto-instrumentations-node/register' app.js"
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.91.0
@@ -37,9 +51,9 @@ services:
     volumes:
       - ./etc/otel-collector-config.yaml:/conf/config.yaml
     ports:
-      - "4317" # OTLP gRPC receiver
-      - "4318" # OTLP http receiver
-      - "8889" # Prometheus metrics exporter
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP http receiver
+      - "8889:8889" # Prometheus metrics exporter
     restart: on-failure
     depends_on:
       - tempo
@@ -60,7 +74,7 @@ services:
       - --config.file=/workspace/prometheus.yml
 
   grafana:
-    image: grafana/grafana:10.2.3
+    image: grafana/grafana:10.3.1
     ports:
       - "3000:3000"
     volumes:

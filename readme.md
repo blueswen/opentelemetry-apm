@@ -137,19 +137,49 @@ opentelemetry-instrument \
 
 Check [FastAPI with Observability](https://github.com/blueswen/fastapi-observability) for more details, if you are interested in FastAPI with Observability.
 
+#### Express - JavaScript
+
+[OpenTelemetry Javascript Contrib](https://github.com/open-telemetry/opentelemetry-js-contrib) provides an [automatic way](https://opentelemetry.io/docs/languages/js/automatic/) to instrument the application for multiple Node.js [frameworks and libraries](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node#supported-instrumentations).
+
+To use automatic instrumentation, we need to install two packages:
+
+1. [@opentelemetry/api](https://www.npmjs.com/package/@opentelemetry/api)
+2. [@opentelemetry/auto-instrumentations-node](https://www.npmjs.com/package/@opentelemetry/auto-instrumentations-node)
+
+Then, we can use the environment variables to config the automatic instrumentation and use the `require` argument to load the auto-instrumentations:
+
+```bash
+export OTEL_TRACES_EXPORTER=otlp
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+export OTEL_SERVICE_NAME=express
+node --require @opentelemetry/auto-instrumentations-node app.js
+```
+
+In this project we use environment variables to set the automatic instrumentation configuration:
+
+```yaml
+# docker-compose.yml
+express:
+  image: ghcr.io/blueswen/opentelemetry-apm/express:latest
+  environment:
+    - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+    - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+    - OTEL_SERVICE_NAME=express
+  command: "node --require '@opentelemetry/auto-instrumentations-node/register' app.js"
+```
+
+Check more details about automatic instrumentation in the [document](https://opentelemetry.io/docs/languages/js/automatic/) and [GitHub Repo](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node#supported-instrumentations). The environment variables are listed in the Java [autoconfigure document](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure).
+
+#### .NET
+
+Work in progress
+
 #### Laravel - PHP
 
 Work in progress
 
 #### Ruby on Rails - Ruby
-
-Work in progress
-
-#### Express - JavaScript
-
-Work in progress
-
-#### .NET
 
 Work in progress
 
@@ -285,7 +315,7 @@ enable = timeSeriesTable
 ```yaml
 # grafana in docker-compose.yaml
 grafana:
-   image: grafana/grafana:10.2.3
+   image: grafana/grafana:10.3.1
    volumes:
       - ./etc/grafana/:/etc/grafana/provisioning/datasources # data sources
       - ./etc/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml # dashboard setting
