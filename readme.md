@@ -6,6 +6,7 @@ Monitoring application performance with OpenTelemetry SDK, OpenTelemetry Collect
 2. OpenTelemetry Collector: Receive traces and process them to metrics with [Span Metrics Connector](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/connector/spanmetricsconnector/README.md)
 3. Prometheus: Scrape metrics from OpenTelemetry Collector
 4. Grafana: Visualize metrics
+5. Tempo: Collect traces, optional for the main goal to process traces to metrics
 
 ![APM Architecture](./images/apm-arch.jpg)
 
@@ -137,7 +138,7 @@ opentelemetry-instrument \
 
 Check [FastAPI with Observability](https://github.com/blueswen/fastapi-observability) for more details, if you are interested in FastAPI with Observability.
 
-#### Express - JavaScript
+#### JavaScript - Express
 
 [OpenTelemetry Javascript Contrib](https://github.com/open-telemetry/opentelemetry-js-contrib) provides an [automatic way](https://opentelemetry.io/docs/languages/js/automatic/) to instrument the application for multiple Node.js [frameworks and libraries](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node#supported-instrumentations).
 
