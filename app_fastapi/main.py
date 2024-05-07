@@ -15,6 +15,7 @@ TARGET_TWO_SVC = os.environ.get("TARGET_TWO_SVC", "localhost:8000")
 
 app = FastAPI()
 
+
 @app.get("/")
 async def read_root():
     logging.error("Hello World")
@@ -64,7 +65,6 @@ async def error_test(response: Response):
 
 @app.get("/chain")
 async def chain(response: Response):
-
     logging.info("Chain Start")
 
     async with httpx.AsyncClient() as client:
