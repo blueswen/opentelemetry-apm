@@ -2,7 +2,7 @@
 
 Monitoring application performance with OpenTelemetry SDK, OpenTelemetry Collector, Prometheus, and Grafana:
 
-1. OpenTelemetry SDK: Generate traces and push them to OpenTelemetry Collector with [automatic instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic/)
+1. OpenTelemetry SDK: Generate traces and push them to OpenTelemetry Collector with [zero-code instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/zero-code/)
 2. OpenTelemetry Collector: Receive traces and process them to metrics with [Span Metrics Connector](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/connector/spanmetricsconnector/README.md)
 3. Prometheus: Scrape metrics from OpenTelemetry Collector
 4. Grafana: Visualize metrics
@@ -20,7 +20,7 @@ This project is inspired by [Jaeger Service Performance Monitoring](https://www.
    docker-compose up -d
    ```
 
-   This project includes FastAPI(Python) and Spring Boot(Java) to demonstrate the out-of-the-box ability of OpenTelemetry automatic instrumentation. Comment out the services you don't want to run in `docker-compose.yml`.
+   This project includes FastAPI(Python) and Spring Boot(Java) to demonstrate the out-of-the-box ability of OpenTelemetry zero-code instrumentation. Comment out the services you don't want to run in `docker-compose.yml`.
 
 2. Send requests with [siege](https://linux.die.net/man/1/siege) to the applications:
 
@@ -47,18 +47,18 @@ This project is inspired by [Jaeger Service Performance Monitoring](https://www.
 
 ## Detail
 
-### OpenTelemetry Automatic Instrumentation
+### OpenTelemetry Zero Instrumentation
 
 OpenTelemetry provides two ways to instrument your application:
 
-1. [Manual Instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/manual/): Modify the application codebase to create spans and export them.
-2. [Automatic Instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic/): Utilize the mechanism from the language runtime to inject code into the application to create spans and export them.
+1. [Code-based Instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/code-based/): Modify the application codebase to create spans and export them.
+2. [Zero-code Instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/zero-code/): Utilize the mechanism from the language runtime to inject code into the application to create spans and export them without modifying the application codebase.
 
-In this project, we use automatic instrumentation to instrument the applications.
+In this project, we use zero-code instrumentation to instrument the applications.
 
 #### Java - Spring Boot
 
-[OpenTelemetry Instrumentation for Java](https://github.com/open-telemetry/opentelemetry-java-instrumentation) provides an [automatic way](https://opentelemetry.io/docs/instrumentation/java/automatic/)(Java 1.8+ is required) to instrument the application by the agent jar as follows:
+[OpenTelemetry Instrumentation for Java](https://github.com/open-telemetry/opentelemetry-java-instrumentation) provides an [zero-code way](https://opentelemetry.io/docs/zero-code/java/agent/)(Java 1.8+ is required) to instrument the application by the agent jar as follows:
 
 ```bash
 java -javaagent:path/to/opentelemetry-javaagent.jar -jar myapp.jar
@@ -70,12 +70,12 @@ The agent supports a lot of [libraries](https://github.com/open-telemetry/opente
 
 So we don't need to modify any line of code in our codebase. The agent will handle everything automatically.
 
-The configurations, like the exporter setting, are listed on the [document](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure), and are consumed by the agent from one or more of the following sources (ordered from highest to lowest priority):
+The configurations, like the exporter setting, are listed on the [document](https://opentelemetry.io/docs/languages/java/configuration/), and are consumed by the agent from one or more of the following sources (ordered from highest to lowest priority):
 
 - system properties
 - environment variables
 - the configuration file
-- the [ConfigPropertySource](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure#customizing-the-opentelemetry-sdk) SPI
+- the [ConfigPropertySource](https://opentelemetry.io/docs/languages/java/configuration/#customizing-the-opentelemetry-sdk) SPI
 
 In this project we use environment variables to set the agent configuration:
 
@@ -96,9 +96,9 @@ Check [Spring Boot with Observability](https://github.com/blueswen/spring-boot-o
 
 #### Python - FastAPI
 
-[OpenTelemetry Instrumentation for Python](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/opentelemetry-instrumentation) provides an [automatic way](https://opentelemetry.io/docs/instrumentation/python/automatic/) for [multiple libraries and frameworks](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation) to instrument the application. With automatic instrumentation, it will inject bytecode dynamically to gather telemetry.
+[OpenTelemetry Instrumentation for Python](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/opentelemetry-instrumentation) provides an [zero-code way](https://opentelemetry.io/docs/zero-code/python/) for [multiple libraries and frameworks](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation) to instrument the application. With zero-code instrumentation, it will inject bytecode dynamically to gather telemetry.
 
-For using automatic instrumentation, we need to install at least three packages:
+For using zero-code instrumentation, we need to install at least three packages:
 
 1. [opentelemetry-distro](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/opentelemetry-distro): OpenTelemetry API and SDK
 2. [opentelemetry-exporter](https://github.com/open-telemetry/opentelemetry-python/tree/main/exporter): Exporter for traces and metrics which have to correspond to the exporter setting of the agent, we use [opentelemetry-exporter-otlp](https://github.com/open-telemetry/opentelemetry-python/tree/main/exporter/opentelemetry-exporter-otlp) here
@@ -111,7 +111,7 @@ There are two ways to set the configuration of OpenTelemetry Instrumentation for
 1. [Environment variables](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/fastapi/fastapi.html#environment-variables)
 2. [CLI arguments](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/opentelemetry-instrumentation#opentelemetry-instrument)
 
-In this project we use environment variables to set the automatic instrumentation configuration:
+In this project we use environment variables to set the zero-code instrumentation configuration:
 
 ```yaml
 # docker-compose.yml
@@ -140,14 +140,14 @@ Check [FastAPI with Observability](https://github.com/blueswen/fastapi-observabi
 
 #### JavaScript - Express
 
-[OpenTelemetry Javascript Contrib](https://github.com/open-telemetry/opentelemetry-js-contrib) provides an [automatic way](https://opentelemetry.io/docs/languages/js/automatic/) to instrument the application for multiple Node.js [frameworks and libraries](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node#supported-instrumentations).
+[OpenTelemetry Javascript Contrib](https://github.com/open-telemetry/opentelemetry-js-contrib) provides an [zero-code way](https://opentelemetry.io/docs/zero-code/js/) to instrument the application for multiple Node.js [frameworks and libraries](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node#supported-instrumentations).
 
-To use automatic instrumentation, we need to install two packages:
+To use zero-code instrumentation, we need to install two packages:
 
 1. [@opentelemetry/api](https://www.npmjs.com/package/@opentelemetry/api)
-2. [@opentelemetry/auto-instrumentations-node](https://www.npmjs.com/package/@opentelemetry/auto-instrumentations-node)
+2. [@opentelemetry/auto-instrumentations-node](https://www.npmjs.com/package/@opentelemetry/auto-instrumentations-node): Zero-code instrumentation was formerly known as automatic instrumentation, so the package name is `auto-instrumentations-node`.
 
-Then, we can use the environment variables to config the automatic instrumentation and use the `require` argument to load the auto-instrumentations:
+Then, we can use the environment variables to config the zero-code instrumentation and use the `require` argument to load the auto-instrumentations:
 
 ```bash
 export OTEL_TRACES_EXPORTER=otlp
@@ -157,7 +157,7 @@ export OTEL_SERVICE_NAME=express
 node --require @opentelemetry/auto-instrumentations-node app.js
 ```
 
-In this project we use environment variables to set the automatic instrumentation configuration:
+In this project we use environment variables to set the zero-code instrumentation configuration:
 
 ```yaml
 # docker-compose.yml
@@ -170,7 +170,7 @@ express:
   command: "node --require '@opentelemetry/auto-instrumentations-node/register' app.js"
 ```
 
-Check more details about automatic instrumentation in the [document](https://opentelemetry.io/docs/languages/js/automatic/) and [GitHub Repo](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node#supported-instrumentations). The environment variables are listed in the Java [autoconfigure document](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure).
+Check more details about zero-code instrumentation in the [document](hhttps://opentelemetry.io/docs/zero-code/js/) and [GitHub Repo](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node#supported-instrumentations). The environment variables are listed in the [Java SDK configuration document](https://opentelemetry.io/docs/languages/java/configuration/).
 
 #### .NET
 
