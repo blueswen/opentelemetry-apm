@@ -1,0 +1,13 @@
+[project]
+name = "app-fastapi"
+version = "0.1.0"
+description = "Demo application using FastAPI"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.12",
+    "httpx>=0.28.1",
+    "opentelemetry-distro>=0.54b1",
+    "opentelemetry-exporter-otlp>=1.33.1",
+    "uvicorn>=0.34.2",
+]
