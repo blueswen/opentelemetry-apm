@@ -1,6 +1,13 @@
 name: Build and Push Docker Images
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app_fastapi/**'
+      - 'app_springboot/**'
+      - 'app_express/**'
   workflow_dispatch:
 
 jobs:
