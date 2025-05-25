@@ -15,12 +15,12 @@
       }
     ]
   },
+  "description": "A language-agnostic application performance management(APM) with OpenTelemetry, Grafana, and Prometheus.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 1,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -39,13 +39,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
-          "unit": "short",
-          "unitScale": true
+          "unit": "short"
         },
         "overrides": []
       },
@@ -61,6 +59,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -72,7 +71,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -80,7 +79,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}) by(service_name)",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}) by(service_name)",
           "instant": true,
           "legendFormat": "{{label_name}}",
           "range": true,
@@ -122,13 +121,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
-          "unit": "short",
-          "unitScale": true
+          "unit": "short"
         },
         "overrides": []
       },
@@ -144,6 +141,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -155,7 +153,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -164,7 +162,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_status_code=~\"^2.*\", http_route=~\"$route\"}) by(http_status_code)",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_status_code=~\"^2.*\", http_route=~\"$route\"}) by(http_status_code)",
           "format": "time_series",
           "instant": true,
           "legendFormat": "Http Status 2XX",
@@ -178,7 +176,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_status_code=~\"^3.*\", http_route=~\"$route\"}) by(http_status_code)",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_status_code=~\"^3.*\", http_route=~\"$route\"}) by(http_status_code)",
           "format": "time_series",
           "hide": false,
           "instant": true,
@@ -193,7 +191,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_status_code=~\"^4.*\", http_route=~\"$route\"}) by(http_status_code)",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_status_code=~\"^4.*\", http_route=~\"$route\"}) by(http_status_code)",
           "format": "time_series",
           "hide": false,
           "instant": true,
@@ -208,7 +206,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_status_code=~\"^5.*\", http_route=~\"$route\"}) by(http_status_code)",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_status_code=~\"^5.*\", http_route=~\"$route\"}) by(http_status_code)",
           "format": "time_series",
           "hide": false,
           "instant": true,
@@ -239,7 +237,8 @@
           "options": {
             "fields": [
               "Metric"
-            ]
+            ],
+            "keepFields": false
           }
         }
       ],
@@ -264,8 +263,7 @@
             }
           },
           "mappings": [],
-          "unit": "short",
-          "unitScale": true
+          "unit": "short"
         },
         "overrides": []
       },
@@ -297,10 +295,12 @@
           "values": false
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -308,7 +308,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}) by(span_name)",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}) by(span_name)",
           "instant": false,
           "legendFormat": "{{label_name}}",
           "range": true,
@@ -337,8 +337,7 @@
             }
           },
           "mappings": [],
-          "unit": "ms",
-          "unitScale": true
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -370,10 +369,12 @@
           "values": false
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -382,7 +383,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(duration_milliseconds_sum{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}) by(span_name)",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_sum{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}) by(span_name)",
           "instant": true,
           "legendFormat": "{{label_name}}",
           "range": false,
@@ -408,13 +409,11 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
-          "unit": "reqpm",
-          "unitScale": true
+          "unit": "reqpm"
         },
         "overrides": []
       },
@@ -440,7 +439,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -448,7 +447,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(rate(duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}[3m])*60)",
+          "expr": "sum(rate(traces_span_metrics_duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}[3m])*60)",
           "hide": false,
           "instant": false,
           "range": true,
@@ -474,8 +473,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -483,8 +481,7 @@
               }
             ]
           },
-          "unit": "percentunit",
-          "unitScale": true
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -510,7 +507,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -518,7 +515,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_status_code=~\"5.*|\", http_route=~\"$route\"})/sum(duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"})",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_status_code=~\"5.*|\", http_route=~\"$route\"})/sum(traces_span_metrics_duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"})",
           "instant": false,
           "range": true,
           "refId": "A"
@@ -545,6 +542,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -575,8 +573,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -584,8 +581,7 @@
               }
             ]
           },
-          "unit": "reqpm",
-          "unitScale": true
+          "unit": "reqpm"
         },
         "overrides": []
       },
@@ -604,11 +600,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.0.2",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -616,7 +613,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(rate(duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_route=~\"$route\"}[3m])*60)  by(span_name)",
+          "expr": "sum(rate(traces_span_metrics_duration_milliseconds_count{service_name=\"$app\", span_kind=\"SPAN_KIND_SERVER\", http_route=~\"$route\"}[3m])*60)  by(span_name)",
           "hide": false,
           "instant": false,
           "legendFormat": "{{label_name}}",
@@ -645,6 +642,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -675,8 +673,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -684,8 +681,7 @@
               }
             ]
           },
-          "unit": "ms",
-          "unitScale": true
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -704,10 +700,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -715,7 +713,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}[3m])) by (le, span_name))",
+          "expr": "histogram_quantile(0.95, sum(rate(traces_span_metrics_duration_milliseconds_bucket{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_route=~\"$route\"}[3m])) by (le, span_name))",
           "instant": false,
           "legendFormat": "{{label_name}}",
           "range": true,
@@ -741,8 +739,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -750,8 +747,7 @@
               }
             ]
           },
-          "unit": "ms",
-          "unitScale": true
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -764,6 +760,12 @@
       "id": 6,
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
         "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
@@ -780,7 +782,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -789,7 +791,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sort_desc(duration_milliseconds_sum{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_status_code!=\"\", http_route=~\"$route\"} / duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_status_code!=\"\", http_route=~\"$route\"})",
+          "expr": "sort_desc(traces_span_metrics_duration_milliseconds_sum{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_status_code!=\"\", http_route=~\"$route\"} / traces_span_metrics_duration_milliseconds_count{span_kind=\"SPAN_KIND_SERVER\", service_name=\"$app\", http_status_code!=\"\", http_route=~\"$route\"})",
           "instant": true,
           "legendFormat": "[{{http_status_code}}] {{span_name}}",
           "range": false,
@@ -822,39 +824,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Request Rate Trend"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "hideValue": true,
-                  "type": "sparkline"
-                }
-              },
-              {
-                "id": "color",
-                "value": {
-                  "mode": "palette-classic"
-                }
-              }
-            ]
-          },
           {
             "matcher": {
               "id": "byName",
@@ -862,34 +841,8 @@
             },
             "properties": [
               {
-                "id": "unit",
-                "value": "reqpm"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "PR95 Latency"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "ms"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Error Rate Trend"
-            },
-            "properties": [
-              {
                 "id": "custom.cellOptions",
                 "value": {
-                  "hideValue": true,
-                  "spanNulls": false,
                   "type": "sparkline"
                 }
               },
@@ -898,6 +851,10 @@
                 "value": {
                   "mode": "palette-classic"
                 }
+              },
+              {
+                "id": "unit",
+                "value": "reqpm"
               }
             ]
           },
@@ -908,25 +865,9 @@
             },
             "properties": [
               {
-                "id": "unit",
-                "value": "percentunit"
-              },
-              {
-                "id": "noValue",
-                "value": "0%"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "PR95 Latency Trend"
-            },
-            "properties": [
-              {
                 "id": "custom.cellOptions",
                 "value": {
-                  "hideValue": true,
+                  "spanNulls": false,
                   "type": "sparkline"
                 }
               },
@@ -935,6 +876,35 @@
                 "value": {
                   "mode": "palette-classic"
                 }
+              },
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PR95"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "hideValue": false,
+                  "type": "sparkline"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "palette-classic"
+                }
+              },
+              {
+                "id": "unit",
+                "value": "ms"
               }
             ]
           }
@@ -961,7 +931,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "12.0.1",
       "targets": [
         {
           "datasource": {
@@ -970,25 +940,11 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])*60) by(service_name, http_method, http_route)",
+          "expr": "sum(rate(traces_span_metrics_duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])*60) by(service_name, http_method, http_route)",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "range": true,
-          "refId": "Request Rate Trend"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(rate(duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])*60) by(service_name, http_method, http_route)",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "range": false,
           "refId": "Request Rate"
         },
         {
@@ -997,24 +953,10 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(duration_milliseconds_bucket{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])) by (le, service_name, http_method, http_route))",
+          "expr": "histogram_quantile(0.95, sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])) by (le, service_name, http_method, http_route))",
           "hide": false,
           "instant": false,
           "range": true,
-          "refId": "PR95 Trend"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "histogram_quantile(0.95, sum(rate(duration_milliseconds_bucket{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}[3m])) by (le, service_name, http_method, http_route))",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "range": false,
           "refId": "PR95"
         },
         {
@@ -1024,25 +966,11 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\", http_status_code!~\"2.*|3.*\"}) by(service_name, http_method, http_route) / sum(duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}) by(service_name, http_method, http_route)",
+          "expr": "sum(traces_span_metrics_duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\", http_status_code!~\"2.*|3.*\"}) by(service_name, http_method, http_route) / sum(traces_span_metrics_duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}) by(service_name, http_method, http_route)",
           "format": "time_series",
           "hide": false,
           "instant": false,
           "range": true,
-          "refId": "Error Rate Trend"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\", http_status_code!~\"2.*|3.*\"}) by(service_name, http_method, http_route) / sum(duration_milliseconds_count{service_name=\"$app\", http_route=~\"$route\", span_kind=\"SPAN_KIND_SERVER\"}) by(service_name, http_method, http_route)",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "range": false,
           "refId": "Error Rate"
         }
       ],
@@ -1062,6 +990,7 @@
             "excludeByName": {
               "Time": true
             },
+            "includeByName": {},
             "indexByName": {
               "Time": 0,
               "Trend #PR95 Trend": 7,
@@ -1075,7 +1004,9 @@
             },
             "renameByName": {
               "Trend": "Request Rate Trend",
+              "Trend #Error Rate": "Error Rate",
               "Trend #Error Rate Trend": "Error Rate Trend",
+              "Trend #PR95": "PR95",
               "Trend #PR95 Trend": "PR95 Latency Trend",
               "Trend #Request Rate": "Request Rate",
               "Trend #Request Rate Trend": "Request Rate Trend",
@@ -1095,8 +1026,9 @@
       "type": "table"
     }
   ],
+  "preload": false,
   "refresh": "30s",
-  "schemaVersion": 39,
+  "schemaVersion": 41,
   "tags": [],
   "templating": {
     "list": [
@@ -1107,10 +1039,8 @@
           "uid": "prometheus"
         },
         "definition": "label_values(service_name)",
-        "hide": 0,
         "includeAll": false,
         "label": "Application",
-        "multi": false,
         "name": "app",
         "options": [],
         "query": {
@@ -1119,26 +1049,15 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
         },
         "definition": "label_values(http_route)",
-        "hide": 0,
         "includeAll": true,
         "label": "Route",
         "multi": true,
@@ -1150,8 +1069,6 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       }
     ]
@@ -1164,6 +1081,5 @@
   "timezone": "",
   "title": "OpenTelemetry APM",
   "uid": "opentelemetry-apm",
-  "version": 1,
-  "weekStart": ""
+  "version": 1
 }

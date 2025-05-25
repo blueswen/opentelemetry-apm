@@ -223,9 +223,15 @@ The pipeline diagram and configuration file are as follows:
 # etc/otel-collector-config.yaml
 receivers:
   otlp:
+    # Since v0.94.0, receiver are default to localhost:4317 and localhost:4318 for security reasons.
+    # Check more details in :
+    # 1. https://opentelemetry.io/docs/security/config-best-practices/#protect-against-denial-of-service-attacks
+    # 2. https://github.com/open-telemetry/opentelemetry-collector/issues/8510#issuecomment-2205683468
     protocols:
-      grpc: # enable gRPC protocol, default port 4317
-      http: # enable http protocol, default port 4318
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
 
 exporters:
   otlp:
@@ -256,7 +262,7 @@ service:
       exporters: [prometheus]
 ```
 
-Since opentelemetry-collector-contrib 0.85.0 the histogram metrics of duration be renamed from `duration_count` to `duration_milliseconds_count` or `duration_seconds_count` according to the unit of the metrics. Ensure the version of opentelemetry-collector-contrib is 0.85.0+ if you want to use the predefined dashboard in this project.
+Starting with version [0.109.0](https://github.com/open-telemetry/opentelemetry-collector-contrib/releases/tag/v0.109.0) of opentelemetry-collector-contrib, the metric name traces.span.metrics has been added as the default namespace. The metric name is either traces_span_duration_milliseconds_count or traces_span_duration_seconds_count, depending on the unit of the metric. To use the predefined dashboard provided in this project, ensure that the version of opentelemetry-collector-contrib is 0.109.0 or later.
 
 Check more details about Connector in the [document](https://opentelemetry.io/docs/collector/configuration/#connectors).
 
@@ -267,7 +273,7 @@ OpenTelemetry Collector only provides metrics in Prometheus format, so we need t
 ```yaml
 # docker-compose.yml
 prometheus:
-  image: prom/prometheus:v2.48.1
+  image: prom/prometheus:v3.3.1
   ports:
     - "9090:9090"
   volumes:
@@ -293,10 +299,12 @@ In this project, Tempo is used as a backend for receiving traces from OpenTeleme
 ```yaml
 # docker-compose.yml
 tempo:
-  image: grafana/tempo:2.3.1
-  command: [ "--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false" ]
+  image: grafana/tempo:2.7.2
+  volumes:
+    - ./etc/tempo.yml:/etc/tempo.yml
   ports:
     - "14250:14250"
+  command: [ "-config.file=/etc/tempo.yml", "--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false" ]
 ```
 
 ### Grafana
@@ -316,7 +324,7 @@ enable = timeSeriesTable
 ```yaml
 # grafana in docker-compose.yaml
 grafana:
-   image: grafana/grafana:10.3.1
+   image: grafana/grafana:12.0.1
    volumes:
       - ./etc/grafana/:/etc/grafana/provisioning/datasources # data sources
       - ./etc/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml # dashboard setting
